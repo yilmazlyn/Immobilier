@@ -1,0 +1,43 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Site location immobilier",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yilmazlyn/Immobilier.git"
+  },
+  "keywords": [
+    "Immobilier",
+    "Location",
+    "Alsace",
+    "Strasbourg",
+    "Evenements"
+  ],
+  "author": "Yilmaz Putun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yilmazlyn/Immobilier/issues"
+  },
+  "homepage": "https://github.com/yilmazlyn/Immobilier#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "express": "^4.17.1",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.28",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
