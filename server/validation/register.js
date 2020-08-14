@@ -36,12 +36,12 @@ module.exports = function validateRegisterInput(data) {
     }
 
     //Password lenght conditions
-    if(!Validator.isLenght(data.password, { min: 8, max: 30} )) {
-        error.password = "Mot de passe doit contenir 8 et 30 caractère";
+    if(!Validator.isLength(data.password, { min:6, max: 30} )) {
+        error.password = "Mot de passe doit contenir 6 et 30 caractère";
     }
 
     if(!Validator.equals(data.password, data.passwordconf)) {
-        errors.passwordconf = "Confirmation de mot de passe incorrect";
+        error.passwordconf = "Confirmation de mot de passe incorrect";
     }
 
     return {
