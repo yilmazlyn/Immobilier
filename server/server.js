@@ -36,8 +36,12 @@ mongoose.connect (
       useUnifiedTopology: true 
          }
 )
+
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err)); 
+
+//To handle DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+mongoose.set('useCreateIndex', true);
 
 //Passport middleware
 app.use(passport.initialize());
