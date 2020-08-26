@@ -10,6 +10,7 @@ const UserSchema = new Schema ({
         type: String, 
         required: true, 
         unique: true,
+        trim: 3, 
     },
 
     password: {
@@ -20,6 +21,13 @@ const UserSchema = new Schema ({
     date: {
         type: Date,
         default: Date.now
+    },
+
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
     }
 }); 
 
