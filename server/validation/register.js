@@ -4,7 +4,7 @@ const isEmpty = require("is-empty");
 //Function takes in 'data' as a parameter which will be sent from front-end
 
 module.exports = function validateRegisterInput(data) {
-    let error = {};
+    let errors = {};
 
     //Converting empty fields to an empty string so we can use validator functions
     data.name = !isEmpty(data.name) ? data.name: ""; 
@@ -14,39 +14,39 @@ module.exports = function validateRegisterInput(data) {
 
     //Check user name
     if(Validator.isEmpty(data.name)) {
-        error.name = "Veuillez remplir le champ"; 
+        errors.name = "Veuillez remplir le champ"; 
     }
 
     //Check user email
     if(Validator.isEmpty(data.email)) {
-        error.email = "Veuillez remplir le champ"; 
+        errors.email = "Veuillez remplir le champ"; 
     }
     
     else if (!Validator.isEmail(data.email)) {
-        error.email = "Format email incorrect";
+        errors.email = "Format email incorrect";
     }
 
     //Check password
     if(Validator.isEmpty(data.password)) {
-        error.password = "Mot de passe obligatoire";
+        errors.password = "Mot de passe obligatoire";
     }
 
     if(Validator.isEmpty(data.passwordconf)) {
-        error.passwordconf = "Veuillez confirmer votre mot de passe";
+        errors.passwordconf = "Veuillez confirmer votre mot de passe";
     }
 
     //Password lenght conditions
     if(!Validator.isLength(data.password, { min:6, max: 30} )) {
-        error.password = "Mot de passe doit contenir 6 et 30 caractère";
+        errors.password = "Mot de passe doit contenir 6 et 30 caractère";
     }
 
     if(!Validator.equals(data.password, data.passwordconf)) {
-        error.passwordconf = "Confirmation de mot de passe incorrect";
+        errors.passwordconf = "Confirmation de mot de passe incorrect";
     }
 
     return {
-        error, 
-        isValid: isEmpty(error)
+        errors, 
+        isValid: isEmpty(errors)
     };
 
 

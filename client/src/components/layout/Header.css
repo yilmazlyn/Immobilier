@@ -1,0 +1,17 @@
+.responsive-img {
+    height: 350px;
+    
+    padding-top: 110px;
+    margin-top: 20px;
+    background: url("https://parksadventure.com/wp-content/uploads/2017/10/header-image-1-2.png");
+    
+    background-repeat: no-repeat;
+    background-size: 1920px 400px;
+    justify-content: space-around;
+    
+    
+}
+
+.search-area {
+    margin-top: -50px
+}
