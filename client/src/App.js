@@ -14,7 +14,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Dashboard from "./components/dashboard/Dashboard"; 
+import Dashboard from "./components/dashboard/Dashboard";
 
 //Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -26,17 +26,16 @@ if (localStorage.jwtToken) {
   //Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
 
-//Check for expired token
-const currentTime = Date.now() / 1000; // to get it in milliseconds
-if (decoded.exp <currentTime) {
-  //Logout user
-  store.dispatch(logoutUser());
+  //Check for expired token
+  const currentTime = Date.now() / 1000; // to get it in milliseconds
+  if (decoded.exp < currentTime) {
+    //Logout user
+    store.dispatch(logoutUser());
 
-  //Redirect to home page again 
-  window.location.href = "./"; 
+    //Redirect to home page again
+    window.location.href = "./";
+  }
 }
-}
-
 
 class App extends Component {
   render() {
@@ -51,7 +50,11 @@ class App extends Component {
                 <Route exact path="/" component={Landing} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/forgotpassword" component={ForgotPassword} />
+                <Route
+                  exact
+                  path="/forgotpassword"
+                  component={ForgotPassword}
+                />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
             </Container>

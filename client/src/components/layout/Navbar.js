@@ -47,7 +47,7 @@ class Navbar extends Component {
               />
             </a>
 
-           <a href="/" onClick= "return false;" className="sidenav-trigger" data-target="mobile-nav" >
+           <a href="/" onClick= "return false" className="sidenav-trigger" data-target="mobile-nav" >
               <i className="material-icons">menu</i>
               </a>
             

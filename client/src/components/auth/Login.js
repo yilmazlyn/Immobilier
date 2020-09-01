@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
+
 class Login extends Component {
   constructor() {
     super();
@@ -43,6 +44,7 @@ this.props.loginUser(userData); // since we handle the redirect within our compo
   };
 render() {
     const { errors } = this.state;
+     console.log(errors.password);
 return (
       <div className="container">
         <div style={{ marginTop: "0rem" }} className="row">
@@ -57,13 +59,14 @@ return (
               <p className="grey-text text-darken-1">
                 Vous n'avez pas de compte <Link to="/register">S'inscrire</Link>
               </p>
+              <a href="/forgotpassword"> Vous avez oublié votre mot de passe ?</a>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
                   value={this.state.email}
-                  error={errors.email}
+                  errors={errors.email}
                   id="email"
                   type="email"
                   className={classnames("", {
@@ -80,7 +83,7 @@ return (
                 <input
                   onChange={this.onChange}
                   value={this.state.password}
-                  error={errors.password}
+                  errors={errors.password}
                   id="password"
                   type="password"
                   className={classnames("", {
@@ -88,11 +91,12 @@ return (
                   })}
                 />
                 <label htmlFor="password">Mot de passe</label>
-                <span className="red-text">
+                <span className="red-text" value={errors.password}>
                   {errors.password}
                   {errors.passwordincorrect}
                 </span>
               </div>
+               
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
                   style={{
@@ -114,6 +118,7 @@ return (
     );
   }
 }
+
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,

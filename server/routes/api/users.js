@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const saltRound = 10;
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const crypto = require("crypto");
+
 
 //Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -35,7 +37,11 @@ router.post("/register", (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        emailToken: crypto.randomBytes(64).toString('hex'),
+        isVerified: false
       });
+
+      
 
       //Hash password with salt before saving user in db
       bcrypt.genSalt(saltRound, (err, salt) => {
@@ -48,6 +54,11 @@ router.post("/register", (req, res) => {
             .catch((err) => console.log(err));
         });
       });
+    }
+
+    //Test 
+    if(user) {
+      crypto.verify(user)
     }
   });
 });
@@ -102,5 +113,15 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+// @route POST api/users/verify account
+// @To verify user account before login
+// @access Public
+
+router.post("/verify", (req,res) => {
+  
+})
+
+
 
 module.exports = router; 
