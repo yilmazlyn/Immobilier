@@ -130,12 +130,14 @@ router.post("/verify", (req, res) => {});
 //@To send an recovery email for user password
 //@access Public
 
+
 router.post('/forgotpassword', (req, res) => {
   const email = req.body.email
   if (email === '') {
     res.status(400).send('email required');
   }
   console.error(req.body.email);
+
 
   
    User.findOne({email}).then((users) => {
@@ -185,5 +187,4 @@ router.post('/forgotpassword', (req, res) => {
     }
   });
 });
-
 module.exports = router;
