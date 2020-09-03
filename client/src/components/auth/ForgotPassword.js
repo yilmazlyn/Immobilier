@@ -12,7 +12,11 @@ class ForgotPassword extends Component {
       messageFromServer: "",
     };
   }
-
+  onSubmitHandler = (e) => {
+    e.preventDefault();
+   this.props.history.push('/login')
+  }
+  
   handleChange = (name) => (event) => {
     this.setState({
       [name]: event.target.value,
@@ -63,7 +67,7 @@ class ForgotPassword extends Component {
               <p className="grey-text text-darken-1">
                 Vous n'avez pas de compte <Link to="/register">S'inscrire</Link>
               </p>
-          <form  noValidate onSubmit={this.sendEmail}>
+          <form  noValidate onSubmit={this.sendEmail, this.onSubmitHandler}>
             <div className="input-field col s12">
               <input
                 value={email}
