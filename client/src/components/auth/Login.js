@@ -44,7 +44,8 @@ this.props.loginUser(userData); // since we handle the redirect within our compo
   };
 render() {
     const { errors } = this.state;
-     console.log(errors.password);
+    
+     
 return (
       <div className="container">
         <div style={{ marginTop: "0rem" }} className="row">

@@ -35,10 +35,21 @@ const UserSchema = new Schema ({
     resetLink: {
         type: String,
         default: " "
+    },
+    passwordReset: {
+        type: String,
+        select: false, 
+
+    },
+
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date, 
     }
 
-
-}); 
+});  
 
 module.exports = User = mongoose.model("users", UserSchema); 
 

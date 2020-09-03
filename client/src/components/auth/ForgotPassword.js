@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-class ResetPassword extends Component {
+class ForgotPassword extends Component {
   constructor() {
     super();
 
@@ -63,7 +63,7 @@ class ResetPassword extends Component {
               <p className="grey-text text-darken-1">
                 Vous n'avez pas de compte <Link to="/register">S'inscrire</Link>
               </p>
-          <form onSubmit={this.sendEmail}>
+          <form  noValidate onSubmit={this.sendEmail}>
             <div className="input-field col s12">
               <input
                 value={email}
@@ -116,4 +116,4 @@ class ResetPassword extends Component {
   }
 }
 
-export default ResetPassword;
+export default ForgotPassword;

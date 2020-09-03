@@ -3,8 +3,8 @@ import Logo from "../../images/logo192.png";
 import "./Navbar.css";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
-import PropTypes from "prop-types"; 
-import { connect } from "react-redux"; 
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 
 class Navbar extends Component {
@@ -13,10 +13,10 @@ class Navbar extends Component {
     M.Sidenav.init(sidenav, {});
   }
 
-  onLogoutClick = e => {
-    e.preventDefault(); 
-    this.props.logoutUser(); 
-  }
+  onLogoutClick = (e) => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
 
   render() {
     const { user } = this.props.auth;
@@ -47,33 +47,43 @@ class Navbar extends Component {
               />
             </a>
 
-           <a href="/" onClick= "return false" className="sidenav-trigger" data-target="mobile-nav" >
+            <a
+              href="/"
+              onClick="return false"
+              className="sidenav-trigger"
+              data-target="mobile-nav"
+            >
               <i className="material-icons">menu</i>
-              </a>
-            
+            </a>
+
             <ul className="right hide-on-med-and-down ">
               <li>
                 <a href="/">Acceuil</a>
               </li>
-              {!user.id?
-              <li>
-                <a href="/register">S'inscrire</a>
-              </li> : null }
-              {!user.id?
-              <li>
-                <a href="/login">Se connecter</a>
-              </li> : null }
-              
+              {!user.id ? (
+                <li>
+                  <a href="/register">S'inscrire</a>
+                </li>
+              ) : null}
+              {!user.id ? (
+                <li>
+                  <a href="/login">Se connecter</a>
+                </li>
+              ) : null}
+
               <li>
                 <a href="/about">Qui sommes-nous? </a>
               </li>
               <li>
                 <a href="/contact">Contact</a>
               </li>
-              {user.id?
-              <li>
-                <a href="/login" onClick={this.onLogoutClick}>Déconnecter</a>
-              </li> : null }
+              {user.id ? (
+                <li>
+                  <a href="/login" onClick={this.onLogoutClick}>
+                    Déconnecter
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </div>
         </nav>
@@ -101,21 +111,17 @@ class Navbar extends Component {
           </li>
         </ul>
       </div>
-      
     );
   }
 }
 
 Navbar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
-export default connect (
-  mapStateToProps,
-  { logoutUser }
-)(Navbar); 
+export default connect(mapStateToProps, { logoutUser })(Navbar);

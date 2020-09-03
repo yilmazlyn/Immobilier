@@ -1,25 +1,22 @@
-import crypto from "crypto";
-import User from "../../models/User";
-
-
-
-require("dotenv").config();
-
+const crypto = require ("crypto");
+const User = require("./users");
+const sendgrid = require ("nodemailer-sendgrid-transport")
 const nodemailer = require('nodemailer');
-const router = require ("express"); 
+const keys = require("../../config/keys");
+const express = require("express"); 
+const router = express.Router();
+// const express = require("express");
+// router = express.Router();
  
-module.exports = (router) => {
+
   router.post('/forgotpassword', (req, res) => {
     if (req.body.email === '') {
       res.status(400).send('email required');
     }
     console.error(req.body.email);
-    User.findOne({
-      where: {
-        email: req.body.email,
-      },
-    }).then((users) => {
-      if (users === null) {
+    User.findOne({email: req.body.email,}).then((users) => {
+      if (!users) {
+        console.log(users);
         console.error('email not in database');
         res.status(403).send('email not in db');
       } else {
@@ -28,25 +25,25 @@ module.exports = (router) => {
           resetPasswordToken: token,
           resetPasswordExpires: Date.now() + 3600000, 
         });
-
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          secure:'false',
-          port: 25,
+        
+        const transporter = nodemailer.createTransport(sendgrid ({
           auth: {
-            user: `${process.env.EMAIL}`,
-            pass: `${process.env.PASSWORD}`,
-          },
-        });
+            key: keys.api_key
+          }
+
+        }))
+          
+          
+          
 
         const mailOptions = {
-          from: 'mySqlDemoEmail@gmail.com',
-          to: `${users.email}`,
+          from: 'no-reply@immobilier.com',
+          to: req.body.email,
           subject: 'Link To Reset Password',
           text:
             'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
             + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
-            + `http://localhost:3031/reset/${token}\n\n`
+            + `http://localhost:3000/reset/${token}\n\n`
             + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
         };
 
@@ -63,9 +60,9 @@ module.exports = (router) => {
       }
     });
   });
-};
 
 
+module.exports = router;
 
 
 // const nodeMailer = require("nodemailer");
