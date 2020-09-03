@@ -152,8 +152,8 @@ router.post('/forgotpassword', (req, res) => {
       
       const transporter = nodemailer.createTransport(sendgrid ({
         auth: {
-          api_key: "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"
-          // key: keys.api_key
+          
+          api_key: keys.api_key
         }
 
       }))
