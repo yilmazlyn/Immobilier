@@ -164,7 +164,7 @@ router.post('/forgotpassword', (req, res) => {
         
 
       const mailOptions = {
-        from: 'yilmaz.putun@hotmail.com',
+        from: 'yilmaz.putun@epitech.eu',
         to: req.body.email,
         subject: 'Link To Reset Password',
         text:
@@ -173,6 +173,13 @@ router.post('/forgotpassword', (req, res) => {
           + `http://localhost:3000/reset/${token}\n\n`
           + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
       };
+
+      // When a user clicks this link, they’re directed 
+      // to a new page in the application entitled ‘Password Reset Screen’, 
+      // which can only be accessed with a valid token. 
+      // If the token has expired or is otherwise invalid, 
+      // the user will see an error screen with links to go home or 
+      // attempt to send a new password reset email.
 
       console.log('sending mail');
 
@@ -188,3 +195,5 @@ router.post('/forgotpassword', (req, res) => {
   });
 });
 module.exports = router;
+
+
