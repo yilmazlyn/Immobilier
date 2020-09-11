@@ -67,7 +67,7 @@ class ForgotPassword extends Component {
               <p className="grey-text text-darken-1">
                 Vous n'avez pas de compte <Link to="/register">S'inscrire</Link>
               </p>
-          <form  noValidate onSubmit={this.sendEmail, this.onSubmitHandler}>
+          <form  noValidate onSubmit={this.sendEmail && this.onSubmitHandler}>
             <div className="input-field col s12">
               <input
                 value={email}
@@ -76,6 +76,7 @@ class ForgotPassword extends Component {
                 onChange={this.handleChange("email")}
               />
               <label htmlFor="email">Email</label>
+    <span className="red-text">{showError}</span>
             </div>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <button

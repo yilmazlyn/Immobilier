@@ -53,12 +53,12 @@ app.use(passport.initialize());
 //Passport config exportation
 require("./config/passport")(passport); 
 
-//Routes for users
+//Routes for users POST
 app.use("/api/users", users);
 
-//router.post("/forgotpassword", forgotpassword)
 
-//Routes for forgot password
+
+
 
 
 

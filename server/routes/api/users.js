@@ -5,10 +5,8 @@ const saltRound = 10;
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const crypto = require("crypto");
-const sendgrid = require ("nodemailer-sendgrid-transport")
-const nodemailer = require('nodemailer');
-
-
+const sendgrid = require("nodemailer-sendgrid-transport");
+const nodemailer = require("nodemailer");
 
 //Load input validation
 const validateRegisterInput = require("../../validation/register");
@@ -108,11 +106,9 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        return res
-          .status(401)
-          .json({
-            passwordincorrect: "Email adresse ou mot de passe incorrect",
-          });
+        return res.status(401).json({
+          passwordincorrect: "Email adresse ou mot de passe incorrect",
+        });
       }
     });
   });
@@ -122,7 +118,14 @@ router.post("/login", (req, res) => {
 // @To verify user account before login
 // @access Public
 
-router.post("/verify", (req, res) => {});
+
+// @route POST api/users/resetpassword
+// @To reset user password
+// @access Public
+
+router.get("/resetpassword", (req, res) => {});
+
+
 
 
 
@@ -130,70 +133,62 @@ router.post("/verify", (req, res) => {});
 //@To send an recovery email for user password
 //@access Public
 
-
-router.post('/forgotpassword', (req, res) => {
-  const email = req.body.email
-  if (email === '') {
-    res.status(400).send('email required');
+router.post("/forgotpassword", (req, res) => {
+  const email = req.body.email;
+  if (email === "") {
+    res.status(400).send("email required");
   }
   console.error(req.body.email);
 
-
-  
-   User.findOne({email}).then((users) => {
+  User.findOne({ email }).then((users) => {
     if (!users) {
       console.log(users);
-      console.error('email not in database');
-      res.status(403).send('email not in db');
+      console.error("email not in database");
+      res.status(403).send("email not in db");
     } else {
-      const token = crypto.randomBytes(20).toString('hex');
+      const token = crypto.randomBytes(256).toString("hex");
       users.update({
         resetPasswordToken: token,
-        resetPasswordExpires: Date.now() + 3600000, 
+        resetPasswordExpires: Date.now() + 360000,
       });
-      
-      const transporter = nodemailer.createTransport(sendgrid ({
-        auth: {
-          
-          api_key: keys.api_key
-        }
 
-      }))
-        
-        
-        
+      const transporter = nodemailer.createTransport(
+        sendgrid({
+          auth: {
+            api_key: keys.api_key,
+          },
+        })
+      );
 
       const mailOptions = {
-        from: 'yilmaz.putun@epitech.eu',
+        from: "yilmaz.putun@epitech.eu",
         to: req.body.email,
-        subject: 'Link To Reset Password',
+        subject: "Link To Reset Password",
         text:
-          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
-          + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
-          + `http://localhost:3000/reset/${token}\n\n`
-          + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+          "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+          "Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n" +
+          `http://localhost:3000/reset/${token}\n\n` +
+          "If you did not request this, please ignore this email and your password will remain unchanged.\n",
       };
 
-      // When a user clicks this link, they’re directed 
-      // to a new page in the application entitled ‘Password Reset Screen’, 
-      // which can only be accessed with a valid token. 
-      // If the token has expired or is otherwise invalid, 
-      // the user will see an error screen with links to go home or 
+      // When a user clicks this link, they’re directed
+      // to a new page in the application entitled ‘Password Reset Screen’,
+      // which can only be accessed with a valid token.
+      // If the token has expired or is otherwise invalid,
+      // the user will see an error screen with links to go home or
       // attempt to send a new password reset email.
 
-      console.log('sending mail');
+      console.log("sending mail");
 
       transporter.sendMail(mailOptions, (err, response) => {
         if (err) {
-          console.error('there was an error: ', err);
+          console.error("there was an error: ", err);
         } else {
-          console.log('here is the res: ', response);
-          res.status(200).json('recovery email sent');
+          console.log("here is the res: ", response);
+          res.status(200).json("recovery email sent");
         }
       });
     }
   });
 });
 module.exports = router;
-
-

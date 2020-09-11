@@ -13,6 +13,7 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 
@@ -54,6 +55,11 @@ class App extends Component {
                   exact
                   path="/forgotpassword"
                   component={ForgotPassword}
+                />
+                <Route
+                  exact
+                  path="/resetpassword"
+                  component={ResetPassword}
                 />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
