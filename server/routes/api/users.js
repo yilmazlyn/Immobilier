@@ -123,7 +123,7 @@ router.post("/login", (req, res) => {
 // @To reset user password
 // @access Public
 
-router.get("/resetpassword", (req, res) => {});
+//router.get("/resetpassword", (req, res) => {});
 
 
 

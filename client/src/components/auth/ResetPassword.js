@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+
 const loading = {
   margin: "1em",
   fontSizze: "24px",
@@ -102,8 +103,47 @@ class ResetPassword extends Component {
       );
     } else if (isLoading) {
       return (
-        <div>
+        <div className="container">
+          <div style={{ marginTop: "0rem" }} className="row">
+          <div className="col s8 offset-s2">
+          <h4>
+                <b>Modifier votre mot de passe</b> par ici
+              </h4>
+              <p className="grey-text text-darken-1">
+                Vous n'avez pas de compte ? <Link to="/register">S'inscrire </Link>
+              </p>
 
+              <p className="grey-text text-darken-1">
+                Vous n'avez plus besoin de modifier votre mot de passe ? <Link to="/login">Se connecter</Link>
+              </p>
+          <form noValidate onSubmit={this.updatePassword}>
+              <div className="input-field col s12">
+              <input
+                  onChange={this.handleChange("password")}
+                  value={this.state.password}
+                  id="password"
+                  type="password"
+                />
+                <label htmlFor="password">Mot de passe</label>
+                <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                <button
+                  style={{
+                    width: "150px",
+                    borderRadius: "3px",
+                    letterSpacing: "1.5px",
+                    marginTop: "1rem"
+                  }}
+                  type="submit"
+                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                >
+                  Go ! 
+                </button>
+              </div>
+                                  
+              </div>
+          </form>
+          </div>
+          </div>
         </div>
       )
      
