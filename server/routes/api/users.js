@@ -14,6 +14,7 @@ const validateLoginInput = require("../../validation/login");
 
 //Load user model
 const User = require("../../models/User");
+const { update } = require("../../models/User");
 
 // @route POST api/users/register
 // @description Register User
@@ -119,11 +120,9 @@ router.post("/login", (req, res) => {
 // @access Public
 
 
-// @route POST api/users/resetpassword
-// @To reset user password
-// @access Public
 
-//router.get("/resetpassword", (req, res) => {});
+
+
 
 
 
@@ -140,16 +139,16 @@ router.post("/forgotpassword", (req, res) => {
   }
   console.error(req.body.email);
 
-  User.findOne({ email }).then((users) => {
-    if (!users) {
-      console.log(users);
+  User.findOne({ email }).then((user) => {
+    if (!user) {
+      console.log(user);
       console.error("email not in database");
       res.status(403).send("email not in db");
     } else {
-      const token = crypto.randomBytes(256).toString("hex");
-      users.update({
-        resetPasswordToken: token,
-        resetPasswordExpires: Date.now() + 360000,
+      const rtoken = crypto.randomBytes(16).toString("hex");
+      user.update({
+        resetPasswordToken: rtoken,
+        resetPasswordExpires: Date.now() + 3600000,
       });
 
       const transporter = nodemailer.createTransport(
@@ -167,10 +166,10 @@ router.post("/forgotpassword", (req, res) => {
         text:
           "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
           "Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n" +
-          `http://localhost:3000/reset/${token}\n\n` +
+          `http://localhost:3000/resetpassword/${rtoken}\n\n` +
           "If you did not request this, please ignore this email and your password will remain unchanged.\n",
       };
-
+      console.log(rtoken);
       // When a user clicks this link, they’re directed
       // to a new page in the application entitled ‘Password Reset Screen’,
       // which can only be accessed with a valid token.
@@ -191,4 +190,69 @@ router.post("/forgotpassword", (req, res) => {
     }
   });
 });
+
+// @route POST api/users/resetpassword
+// @To reset user password and verify resetPasswordToken
+// @access Public
+
+router.get("/resetpassword", (req, res, next) => {
+  User.findOne({
+    
+      resetPasswordToken: req.query.resetPasswordToken,
+      resetPasswordExpires: {
+        $gt: Date.now(), 
+      },
+    
+
+  }).then(user => {
+    if(!user) {
+      console.log("Lien de mot de passe invalid ou expiré");
+      res.json("Lien de mot de passe invalid ou expiré");
+    } else {
+      res.status(200).send({
+        name: user.name,
+        message: "Lien de mot de passe is-ok", 
+      });
+    }
+  });
+});
+
+// @route POST api/users/updatePasswordViaEmail
+// @To hash and update user password
+// @access Public
+
+router.put("/updatePasswordViaEmail", (req, res, next) => {
+  User.findOne({
+    where: {
+      name:req.body.name,
+      resetPasswordToken: req.body.resetPasswordToken,
+      resetPasswordExpires: {$gt: Date.now()} 
+    },
+  }).then(user => {
+    if(user) {
+      const password = req.body.password;
+      console.log("user exists in db");
+      bcrypt.genSalt(saltRound, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash),
+        user.password = hash  
+        .then(hashedPassword => {
+          user.update({
+            password: hashedPassword,
+            resetPasswordToken: null,
+            resetPasswordExpires: null,
+          });
+        })
+        .then(() => {
+          console.log("password updated");
+          res.status(200).send({message: "password updated"})
+        }));
+      })
+      
+    } else {
+      console.log("no user exists in db to update");
+      res.status(404).send({message: "no user exists in db to update"})
+    }
+  })
+  
+})
 module.exports = router;

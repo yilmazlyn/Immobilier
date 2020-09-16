@@ -2,16 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
-const loading = {
-  margin: "1em",
-  fontSizze: "24px",
-};
-
-const title = {
-  pageTitle: "Page de reinitialisation de mot de passe",
-};
-
 class ResetPassword extends Component {
   constructor() {
     super();
@@ -19,7 +9,6 @@ class ResetPassword extends Component {
     this.state = {
       name: "",
       password: "",
-      passwordconf: "",
       update: false,
       isLoading: true,
       error: false,
@@ -27,18 +16,18 @@ class ResetPassword extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.match.params.token);
+    console.log(this.props.match.params.rtoken);
     await axios
       .get("/api/users/resetpassword", {
         params: {
-          resetPasswordToken: this.props.match.token,
+          resetPasswordToken: this.props.match.params.rtoken,
         },
       })
       .then((response) => {
         console.log(response);
         if (response.data.message === "password reset link a-ok") {
           this.setState({
-            name: response.data.username,
+            name: response.data.name,
             update: false,
             isLoading: false,
             error: false,
@@ -65,9 +54,10 @@ class ResetPassword extends Component {
   updatePassword = (e) => {
     e.preventDefault();
     axios
-      .put("api/users/updatePasswordViaEmail", {
+      .put("/api/users/updatePasswordViaEmail", {
         name: this.state.name,
         password: this.state.password,
+        resetPasswordToken: this.props.match.params.token
       })
       .then((response) => {
         console.log(response.data);
@@ -103,6 +93,18 @@ class ResetPassword extends Component {
       );
     } else if (isLoading) {
       return (
+        
+        <div className="container">
+          <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+              <h4>
+                <b>Chargement de vos informations</b> sont en cours
+              </h4>
+              </div>
+        </div>
+      )
+     
+    } else {
+      return (
         <div className="container">
           <div style={{ marginTop: "0rem" }} className="row">
           <div className="col s8 offset-s2">
@@ -120,7 +122,7 @@ class ResetPassword extends Component {
               <div className="input-field col s12">
               <input
                   onChange={this.handleChange("password")}
-                  value={this.state.password}
+                  value={password}
                   id="password"
                   type="password"
                 />
@@ -142,11 +144,22 @@ class ResetPassword extends Component {
                                   
               </div>
           </form>
+
+          {updated && (
+            <div className="container">
+              <p className="grey-text text-darken-1">
+                Votre mot de passe a été modifié <Link to="/login">Se connecter nouveau</Link>
+              </p>
+              <br/>
+              <p className="grey-text text-darken-1">
+                Vous pouvez sauter direcetement sur la page d'acceuil <Link to="/">Aller à la page d'acceuil</Link>
+              </p>
+            </div>
+          )}
           </div>
           </div>
         </div>
       )
-     
     }
   }
 }

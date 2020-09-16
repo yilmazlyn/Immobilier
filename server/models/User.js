@@ -32,17 +32,7 @@ const UserSchema = new Schema ({
         type: Boolean,
         default: false
     },
-
-    resetLink: {
-        type: String,
-        default: " "
-    },
-    passwordReset: {
-        type: String,
-        select: false
-
-    },
-
+   
     resetPasswordToken: {
         type: String,
     },
