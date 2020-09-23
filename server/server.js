@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const helmet = require("helmet"); 
 const passport = require ("passport")
 const users = require ("./routes/api/users");
+const locations =require("./routes/api/locations");
 
 
 
@@ -56,6 +57,8 @@ require("./config/passport")(passport);
 //Routes for users
 app.use("/api/users", users);
 
+//Routes for Locations
+app.use('/api/locations', locations);
 
 
 

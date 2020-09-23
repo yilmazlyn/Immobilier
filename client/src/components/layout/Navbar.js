@@ -31,7 +31,7 @@ class Navbar extends Component {
           }}
         >
           <div className="nav-wrapper">
-            <a href="/" class="brand-logo">
+            <a href="/" className="brand-logo">
               HD2A{" "}
               <img
                 alt="logo"

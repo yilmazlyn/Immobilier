@@ -24,6 +24,7 @@ router.post("/register", (req, res) => {
   //Validate the form
 
   const { error, isValid } = validateRegisterInput(req.body);
+  
 
   //Check validation
 
@@ -42,6 +43,8 @@ router.post("/register", (req, res) => {
         password: req.body.password,
         emailToken: crypto.randomBytes(64).toString("hex"),
         isVerified: false,
+        
+        
       });
 
       //Hash password with salt before saving user in db
@@ -119,15 +122,6 @@ router.post("/login", (req, res) => {
 // @To verify user account before login
 // @access Public
 
-
-
-
-
-
-
-
-
-
 //@route POST api/users/forgotpassword
 //@To send an recovery email for user password
 //@access Public
@@ -146,10 +140,10 @@ router.post("/forgotpassword", (req, res) => {
       res.status(403).send("email not in db");
     } else {
       const rtoken = crypto.randomBytes(16).toString("hex");
-      user.update({
+      user.update( {
         resetPasswordToken: rtoken,
-        resetPasswordExpires: Date.now() + 3600000,
-      });
+        resetPasswordExpires: Date.now() + 360000,
+      });console.log(rtoken);
 
       const transporter = nodemailer.createTransport(
         sendgrid({
@@ -169,7 +163,7 @@ router.post("/forgotpassword", (req, res) => {
           `http://localhost:3000/resetpassword/${rtoken}\n\n` +
           "If you did not request this, please ignore this email and your password will remain unchanged.\n",
       };
-      console.log(rtoken);
+      
       // When a user clicks this link, they’re directed
       // to a new page in the application entitled ‘Password Reset Screen’,
       // which can only be accessed with a valid token.
@@ -197,24 +191,24 @@ router.post("/forgotpassword", (req, res) => {
 
 router.get("/resetpassword", (req, res, next) => {
   User.findOne({
-    
+    where: {
       resetPasswordToken: req.query.resetPasswordToken,
       resetPasswordExpires: {
-        $gt: Date.now(), 
+        $gt: Date.now(),
       },
-    
-
-  }).then(user => {
-    if(!user) {
+    },
+  }).then((user) => {
+    if (!user) {
       console.log("Lien de mot de passe invalid ou expiré");
       res.json("Lien de mot de passe invalid ou expiré");
     } else {
       res.status(200).send({
         name: user.name,
-        message: "Lien de mot de passe is-ok", 
+        message: "Lien de mot de passe is-ok",
       });
     }
   });
+ 
 });
 
 // @route POST api/users/updatePasswordViaEmail
@@ -222,37 +216,39 @@ router.get("/resetpassword", (req, res, next) => {
 // @access Public
 
 router.put("/updatePasswordViaEmail", (req, res, next) => {
-  User.findOne({
-    where: {
-      name:req.body.name,
+  User.findOneAndUpdate({
+    $set: {
+      name: req.body.name,
       resetPasswordToken: req.body.resetPasswordToken,
-      resetPasswordExpires: {$gt: Date.now()} 
+      resetPasswordExpires: { $gt: Date.now() },
     },
-  }).then(user => {
-    if(user) {
+  }).then((user) => {
+    if (user) {
       const password = req.body.password;
       console.log("user exists in db");
       bcrypt.genSalt(saltRound, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash),
-        user.password = hash  
-        .then(hashedPassword => {
-          user.update({
-            password: hashedPassword,
-            resetPasswordToken: null,
-            resetPasswordExpires: null,
-          });
-        })
-        .then(() => {
-          console.log("password updated");
-          res.status(200).send({message: "password updated"})
-        }));
-      })
-      
+        bcrypt.hash(
+          password,
+          salt,
+          (err, hash),
+          (user.password = hash
+            .then((hashedPassword) => {
+              user.update({
+                password: hashedPassword,
+                resetPasswordToken: null,
+                resetPasswordExpires: null,
+              });
+            })
+            .then(() => {
+              console.log("password updated");
+              res.status(200).send({ message: "password updated" });
+            }))
+        );
+      });
     } else {
       console.log("no user exists in db to update");
-      res.status(404).send({message: "no user exists in db to update"})
+      res.status(404).send({ message: "no user exists in db to update" });
     }
-  })
-  
-})
+  });
+});
 module.exports = router;

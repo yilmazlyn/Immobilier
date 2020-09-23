@@ -32,12 +32,20 @@ const UserSchema = new Schema ({
         type: Boolean,
         default: false
     },
+
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
    
     resetPasswordToken: {
         type: String,
+        default:""
     },
     resetPasswordExpires: {
         type: Date, 
+        default: Date.now()
+        
     }
 
 });  

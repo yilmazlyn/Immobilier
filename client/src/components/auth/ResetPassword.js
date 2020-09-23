@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+
 
 class ResetPassword extends Component {
   constructor() {
@@ -9,6 +12,7 @@ class ResetPassword extends Component {
     this.state = {
       name: "",
       password: "",
+      passwordconf: "",
       update: false,
       isLoading: true,
       error: false,
@@ -19,9 +23,9 @@ class ResetPassword extends Component {
     console.log(this.props.match.params.rtoken);
     await axios
       .get("/api/users/resetpassword", {
-        params: {
+         
           resetPasswordToken: this.props.match.params.rtoken,
-        },
+        
       })
       .then((response) => {
         console.log(response);
@@ -45,6 +49,14 @@ class ResetPassword extends Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+
   handleChange = (name) => (event) => {
     this.setState({
       [name]: event.target.value,
@@ -57,7 +69,7 @@ class ResetPassword extends Component {
       .put("/api/users/updatePasswordViaEmail", {
         name: this.state.name,
         password: this.state.password,
-        resetPasswordToken: this.props.match.params.token
+        resetPasswordToken: this.props.match.params.rtoken
       })
       .then((response) => {
         console.log(response.data);
@@ -164,4 +176,18 @@ class ResetPassword extends Component {
   }
 }
 
-export default ResetPassword;
+ResetPassword.propTypes = {
+name: PropTypes.string,
+email: PropTypes.string,
+password: PropTypes.string
+};
+
+const mapStateToProps = state => ({
+  password: state.password,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+
+)(withRouter(ResetPassword));
