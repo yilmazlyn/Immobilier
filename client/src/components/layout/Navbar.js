@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Logo from "../../images/logo192.png";
 import "./Navbar.css";
-import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -23,14 +22,14 @@ class Navbar extends Component {
     return (
       <div className="grid">
         <nav
-          className="Navbar"
+          className="Navbar nav-wrapper"
           style={{
             padding: "0px 0px",
 
             position: "fixed",
           }}
         >
-          <div className="nav-wrapper">
+          <div>
             <a href="/" className="brand-logo">
               HD2A{" "}
               <img
@@ -41,7 +40,7 @@ class Navbar extends Component {
                   width: "40px",
                   paddingRight: "10px",
                   position: "absolute",
-                  top: "17px",
+                  top: "18px",
                   right: "80px",
                 }}
               />
@@ -94,21 +93,30 @@ class Navbar extends Component {
           <li>
             <a href="/">Acceuil</a>
           </li>
-          <li>
-            <a href="/register">S'inscrire</a>
-          </li>
-          <li>
-            <a href="/login">Se connecter</a>
-          </li>
-          <li>
-            <a href="/login">Déconnecter</a>
-          </li>
+          {!user.id ? (
+            <li>
+              <a href="/register">S'inscrire</a>
+            </li>
+          ) : null}
+          {!user.id ? (
+            <li>
+              <a href="/login">Se connecter</a>
+            </li>
+          ) : null}
+
           <li>
             <a href="/about">Qui sommes-nous? </a>
           </li>
           <li>
             <a href="/contact">Contact</a>
           </li>
+          {user.id ? (
+            <li>
+              <a href="/login" onClick={this.onLogoutClick}>
+                Déconnecter
+              </a>
+            </li>
+          ) : null}
         </ul>
       </div>
     );

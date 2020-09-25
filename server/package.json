@@ -7,9 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm start --prefix client",
-    "react": "react-scripts start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "client": "npm start --prefix ../client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "react": "react-scripts start"
+    
   },
   "repository": {
     "type": "git",

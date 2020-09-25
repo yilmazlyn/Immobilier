@@ -219,7 +219,7 @@ router.put("/updatePasswordViaEmail", (req, res, next) => {
   User.findOneAndUpdate({
     $set: {
       name: req.body.name,
-      resetPasswordToken: req.body.resetPasswordToken,
+      resetPasswordToken: req.query.resetPasswordToken,
       resetPasswordExpires: { $gt: Date.now() },
     },
   }).then((user) => {

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import eventImage from "../../images/events.jpg";
 
 class Landing extends Component {
+
+  
   render() {
     return (
       

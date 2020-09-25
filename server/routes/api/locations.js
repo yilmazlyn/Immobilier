@@ -29,6 +29,18 @@ router.post('/', (req, res) => {
     .then(location => res.json(location))
 });
 
+//@route DELETE api/locations/:id
+//@desc Delete a location
+//@access Public for now, it is gonna be just for Admin in future
+router.delete('/:id', (req, res) => {
+    Location.findById(req.params.id)
+    .then(location => location.remove()
+    .then(() => res.json({ success: true })))
+    .catch(err => res.status(404).json({ success: false }));
+});
+
+
+
 
 
 module.exports = router; 

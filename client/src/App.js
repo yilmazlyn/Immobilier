@@ -16,6 +16,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import Locations from "./components/admin/Locations"
 
 //Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -61,9 +62,15 @@ class App extends Component {
                   path="/resetpassword"
                   component={ResetPassword}
                 />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                
               </Switch>
+              
             </Container>
+            
+          </Router>
+          <Router>
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/admin" component={Locations} />
           </Router>
         </div>
       </Provider>

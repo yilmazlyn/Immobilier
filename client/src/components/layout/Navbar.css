@@ -3,30 +3,9 @@
 }
 
 
+.nav-wrapper {
+    background-color: #629bb4; 
+    font-size: 14px;
+    font-weight: bold;
 
-/* .Navbar {
-    display: grid;
-    grid-template-areas: "logo sidenav";
-
-}
-
-.Nav {
-    grid-area: nav; 
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    align-items: center;
-    justify-items: center;
-}
-
-.sidenav {
-    display: none; 
-}
-@media (max-width: 700px) {
-    .Navbar {
-        grid-template-areas: "logo sidenav" "nav nav"; 
-    }
-    .sidenav {
-        display:block;
-    }
-} */
-
+  }
