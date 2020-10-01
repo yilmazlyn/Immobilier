@@ -16,6 +16,18 @@ const validateLoginInput = require("../../validation/login");
 const User = require("../../models/User");
 const { update } = require("../../models/User");
 
+
+//@route GET api/locations
+//@desc Get All Locations
+//@access Public for now, it is gonna be just for Admin in future
+router.get('/', (req, res) => {
+  User.find()
+  //.sort({ date: -1 })
+  .then(users => res.json(users))
+  .catch(err => res.status(404).json({ success: false }));
+});
+
+
 // @route POST api/users/register
 // @description Register User
 // @access Public

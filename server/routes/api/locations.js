@@ -9,8 +9,8 @@ const Location = require('../../models/Location');
 //@access Public for now, it is gonna be just for Admin in future
 router.get('/', (req, res) => {
     Location.find()
-    .sort({ date: -1 })
-    .then(Locations => res.json(Locations))
+    //.sort({ date: -1 })
+    .then(locations => res.json(locations))
     .catch(err => res.status(404).json({ success: false }));
 });
 
@@ -40,6 +40,19 @@ router.delete('/:id', (req, res) => {
     .then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
 });
+
+//@route PUT api/locations/:id
+//@desc update a location
+//@access Public for now, it is gonna be just for Admin in future
+router.put('/:id', (req, res) => {
+    Location.findById(req.params.id) 
+      .then(location => {
+        location.update()
+          .then(() => res.json({ success: true }))
+          // return 404 if not found
+          .catch(err => res.status(404).json({ success: false }) )
+      })
+  })
 
 
 
