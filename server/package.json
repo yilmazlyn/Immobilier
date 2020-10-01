@@ -1,53 +1,52 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "Site location immobilier",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix ../client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "react": "react-scripts start"
-    
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yilmazlyn/Immobilier.git"
-  },
-  "keywords": [
-    "Immobilier",
-    "Location",
-    "Alsace",
-    "Strasbourg",
-    "Evenements"
-  ],
-  "author": "Yilmaz Putun",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/yilmazlyn/Immobilier/issues"
-  },
-  "homepage": "https://github.com/yilmazlyn/Immobilier#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "concurrently": "^5.3.0",
-    "crypto": "^1.0.1",
-    "express": "^4.17.1",
-    "helmet": "^4.0.0",
-    "is-empty": "^1.2.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.28",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.4.11",
-    "nodemailer-sendgrid-transport": "^0.2.0",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "sendmail": "^1.6.1",
-    "validator": "^13.1.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "Site location immobilier",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
+        "server": "nodemon server.js",
+        "client": "npm start --prefix ../client",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "react": "react-scripts start"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yilmazlyn/Immobilier.git"
+    },
+    "keywords": [
+        "Immobilier",
+        "Location",
+        "Alsace",
+        "Strasbourg",
+        "Evenements"
+    ],
+    "author": "Yilmaz Putun",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/yilmazlyn/Immobilier/issues"
+    },
+    "homepage": "https://github.com/yilmazlyn/Immobilier#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "concurrently": "^5.3.0",
+        "crypto": "^1.0.1",
+        "express": "^4.17.1",
+        "helmet": "^4.0.0",
+        "is-empty": "^1.2.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.9.28",
+        "morgan": "^1.10.0",
+        "nodemailer": "^6.4.11",
+        "nodemailer-sendgrid-transport": "^0.2.0",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0",
+        "sendmail": "^1.6.1",
+        "validator": "^13.1.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
 }

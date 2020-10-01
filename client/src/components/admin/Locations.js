@@ -1,72 +1,125 @@
 import React, { Component } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import uuid from "uuid";
+import "./Locations.css";
+import { connect } from "react-redux";
+import { getLocations, deleteLocation } from "../../actions/locationActions";
+import PropTypes from "prop-types";
+import AddLocation from "./AddLocation";
+import M from "materialize-css";
 
 class Locations extends Component {
-  state = {
-    locations: [
-      { id: uuid(), title: "location1", description: "Simple decription for locations" },
-      { id: uuid(), title: "location2", description: "Simple decription for locations" },
-    ],
+  componentDidMount() {
+    M.Tabs.init(this.Tabs);
+    this.props.getLocations();
+  }
+
+  onDeleteClick = (id) => {
+    this.props.deleteLocation(id);
   };
 
   render() {
-    const { locations } = this.state;
-    return (
-      <div className="container">
-        <button
-          onClick={() => {
-            const title = prompt("Enter location");
-            if (title) {
-              this.setState((state) => ({
-                locations: [...state.locations, { id: uuid(), title }],
-              }));
-            }
-          }}
-          style={{
-            width: "150px",
-            borderRadius: "3px",
-            letterSpacing: "1.5px",
-            marginTop: "1rem",
-          }}
-          type="submit"
-          className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-        >
-          Add to DB
-        </button>
+    const { locations } = this.props.location;
+    console.log(locations);
 
-        <TransitionGroup className="location-list">
-          {locations.map(({ id, title}) => (
-            <CSSTransition key={id} timeout={500} classNames="fade">
-              <div className="container">
-                <div class="row">
-                  <div class="col s12 m6">
-                    <div class="card">
-                      <div class="card-image">
-                        <img src="https://images.unsplash.com/photo-1600950603226-e9443673e604?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1355&q=80" />
-                        <span class="card-title" style={{color: "black", fontSize: "50px", fontStyle:"bold"}}>{title}</span>
-                        <a class="btn-floating halfway-fab waves-effect waves-light red">
-                          <i class="material-icons">add</i>
-                        </a>
-                      </div>
-                      <div class="card-content">
-                        <p>
-                        Description will  come up here
-                        </p>
+    return (
+      <div className="grid center-align">
+        <div class="row">
+          <div class="col s12">
+            <ul
+              class="tabs"
+              ref={(Tabs) => {
+                this.Tabs = Tabs;
+              }}
+              id="tabs-swipe"
+              className="tabs"
+            >
+              <li class="tab col s3">
+                <a href="#test1" class="active">Lister les Locations et Supprimer</a>
+              </li>
+              <li class="tab col s3">
+                <a href="#test2">
+                  Ajouter des Locations
+                </a>
+              </li>
+              <li class="tab col s3">
+                <a href="#test3">MAJ les Locations</a>
+              </li>
+            </ul>
+          </div>
+          <div id="test1" class="col s12">
+            <TransitionGroup className="location-list">
+              {locations.map(
+                ({ _id, title, description, adresse, price, capacity }) => (
+                  <CSSTransition key={_id} timeout={500} classNames="fade">
+                    <div className="container">
+                      <div class="row">
+                        <div class="col s12 m6"
+                        style={{
+                          marginTop: "2rem"
+                        }}>
+                          <div class="card">
+                            <div class="card-image">
+                              <img
+                                src="https://images.unsplash.com/photo-1600950603226-e9443673e604?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1355&q=80"
+                                alt="unsplash"
+                              />
+                            </div>
+                            <div class="card-content">
+                              <h4>{title}</h4>
+                              <p>{description}</p>
+                              <p><strong>Location: </strong>{adresse}</p>
+                              <p><strong>Prix: </strong>{price + "€"}</p>
+                              <p><strong>Capacité: </strong>{capacity + "/personne"}</p>
+
+                              <br />
+                              <button
+                                class="btn waves-effect waves-light delete-btn"
+                                type="button"
+                                name="delete"
+                                onClick={this.onDeleteClick.bind(this, _id)}
+                              >
+                                Delete
+                                <i class="material-icons right delete_forever">
+                                  delete
+                                </i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
+                  </CSSTransition>
+                )
+              )}
+            </TransitionGroup>
+          </div>
+
+          <div id="test2" class="col s12">
+            <AddLocation />
+          </div>
+
+          <div id="test3" class="col s12">
+            Test 3
+          </div>
+
+        </div>
       </div>
     );
   }
 }
 
-export default Locations;
+Locations.propTypes = {
+  getLocations: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  location: state.location,
+});
+
+export default connect(mapStateToProps, { getLocations, deleteLocation })(
+  Locations
+);
 
 // <div style={{ marginTop: 20 }} className="container">
 //   <h3>Create New Location</h3>

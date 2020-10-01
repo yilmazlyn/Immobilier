@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
     Location.find()
     .sort({ date: -1 })
     .then(Locations => res.json(Locations))
+    .catch(err => res.status(404).json({ success: false }));
 });
 
 //@route POST api/locations
@@ -27,6 +28,7 @@ router.post('/', (req, res) => {
     });
     newLocation.save()
     .then(location => res.json(location))
+    .catch(err => res.status(404).json({ success: false }));
 });
 
 //@route DELETE api/locations/:id

@@ -16,7 +16,7 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
-import Locations from "./components/admin/Locations"
+import Locations from "./components/admin/Locations";
 
 //Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -43,36 +43,24 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="App">
-          <Router>
+        <Router>
+          <div className="App">
             <Container>
               <Navbar />
               <Header />
+
+              <Route exact path="/" component={Landing} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/forgotpassword" component={ForgotPassword} />
+              <Route exact path="/resetpassword" component={ResetPassword} />
               <Switch>
-                <Route exact path="/" component={Landing} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <Route
-                  exact
-                  path="/forgotpassword"
-                  component={ForgotPassword}
-                />
-                <Route
-                  exact
-                  path="/resetpassword"
-                  component={ResetPassword}
-                />
-                
-              </Switch>
-              
-            </Container>
-            
-          </Router>
-          <Router>
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/admin" component={Locations} />
-          </Router>
-        </div>
+              </Switch>
+            </Container>
+          </div>
+        </Router>
       </Provider>
     );
   }
