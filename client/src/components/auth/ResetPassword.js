@@ -20,10 +20,11 @@ class ResetPassword extends Component {
 
   async componentDidMount() {
     console.log(this.props.match.params.rtoken);
+    const rtoken = this.props.query.rtoekn;
 
    // `/api/users/resetpassword/${rtoken}` it should work but not, rtoken declared as req.query.
     await axios
-      .get("/api/users/resetpassword", {
+      .get(`/api/users/resetpassword/${rtoken}`, {
         params: {
           resetPasswordToken: this.props.match.params.rtoken,
         },

@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
     //.sort({ date: -1 })
     .then(locations => res.json(locations))
     .catch(err => res.status(404).json({ success: false }));
+    
 });
 
 //@route POST api/locations
@@ -45,7 +46,7 @@ router.delete('/:id', (req, res) => {
 //@desc update a location
 //@access Public for now, it is gonna be just for Admin in future
 router.put('/:id', (req, res) => {
-    Location.findById(req.params.id) 
+    Location.findByIdAndUpdate(req.params.id) 
       .then(location => {
         location.update()
           .then(() => res.json({ success: true }))
@@ -54,7 +55,7 @@ router.put('/:id', (req, res) => {
       })
   })
 
-
+ 
 
 
 

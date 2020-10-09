@@ -14,7 +14,7 @@ const validateLoginInput = require("../../validation/login");
 
 //Load user model
 const User = require("../../models/User");
-const { update } = require("../../models/User");
+
 
 
 //@route GET api/locations
@@ -201,7 +201,7 @@ router.post("/forgotpassword", (req, res) => {
 // @To reset user password and verify resetPasswordToken
 // @access Public
 
-router.get("/resetpassword", (req, res, next) => {
+router.get("/resetpassword", (req, res, resetPasswordToken, next) => {
   User.findOne({
     where: {
       resetPasswordToken: req.query.resetPasswordToken,
