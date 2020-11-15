@@ -1,6 +1,7 @@
-
+.gitignore
 /server/node_modules/
 server/config/
 .DS_Store
 
 
+node_modules

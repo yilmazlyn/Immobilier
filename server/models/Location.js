@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 //Create Schema
 
@@ -26,27 +26,14 @@ const LocationSchema = new Schema({
   },
 
   capacity: {
-      type: Number,
-      required: true,
-  },
-
-  image: {
-      data: Buffer,
-      contentType: String
+    type: Number,
+    required: true,
   },
 
   date: {
     type: Date,
-    default: Date.now
-  }
-
-
-});
+    default: Date.now,
+  },
+})
 
 module.exports = Location = mongoose.model('location', LocationSchema)
-
-
-
-
-
-
